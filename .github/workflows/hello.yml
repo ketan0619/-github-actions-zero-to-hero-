@@ -1,0 +1,19 @@
+name: Hello 
+on:
+  push:
+     branches: [main]
+jobs: 
+   greet:
+     runs-on: ubuntu-latest
+     steps:
+       - name: say hello to users
+         run: echo "hello"
+
+       - name: say hello to user_name
+         run: echo "hello $USER"
+
+   details:
+      runs-on: ubuntu-latest
+      steps:
+        - name: show what is the version of docker, python
+          run: docker --version && python --version
