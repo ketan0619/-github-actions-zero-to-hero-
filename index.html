@@ -3,154 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitOps AI</title>
+    <title>FitOps AI | Health Intelligence</title>
     <link href="https://fonts.googleapis.com" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
 
         body {
             height: 100vh;
-            /* Vibrant Side Gradients */
+            /* Side Gradient Theme (Aurora Style) */
             background: 
-                radial-gradient(circle at -10% 50%, rgba(255, 75, 138, 0.2) 0%, transparent 50%),
-                radial-gradient(circle at 110% 50%, rgba(79, 172, 254, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at -10% 50%, rgba(255, 75, 138, 0.25) 0%, transparent 45%),
+                radial-gradient(circle at 110% 50%, rgba(79, 172, 254, 0.25) 0%, transparent 45%),
                 linear-gradient(135deg, #0f0c29, #24243e, #050505);
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow: hidden; /* Keeps everything on one page */
         }
 
         .container {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(25px);
-            padding: 30px;
-            border-radius: 24px;
-            width: 380px;
+            -webkit-backdrop-filter: blur(25px);
+            padding: 30px 35px;
+            border-radius: 28px;
+            width: 400px;
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+            transition: transform 0.3s ease;
         }
 
-        .logo { width: 60px; margin-bottom: 5px; filter: drop-shadow(0 0 10px #4facfe); }
-        h1 { color: white; font-size: 26px; letter-spacing: -0.5px; }
-        .subtitle { color: #888; font-size: 10px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        /* Enlarged Logo Styles */
+        .logo { 
+            width: 100px; /* Increased size */
+            height: auto;
+            margin-bottom: 15px; 
+            filter: drop-shadow(0 0 12px rgba(79, 172, 254, 0.6)); 
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .logo:hover { transform: scale(1.1) rotate(5deg); }
 
-        .input-group { display: flex; flex-direction: column; gap: 12px; }
+        h1 { color: white; font-size: 28px; font-weight: 600; letter-spacing: -0.5px; }
+        .subtitle { color: #999; font-size: 11px; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px; }
+
+        .form-group { display: flex; flex-direction: column; gap: 12px; }
         input {
             width: 100%;
             padding: 14px;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 12px;
             background: rgba(0, 0, 0, 0.3);
             color: white;
             font-size: 14px;
             transition: 0.3s;
         }
-        input:focus { outline: none; border-color: #4facfe; background: rgba(0,0,0,0.5); }
+        input:focus { outline: none; border-color: #4facfe; background: rgba(0,0,0,0.5); box-shadow: 0 0 15px rgba(79, 172, 254, 0.2); }
 
         button {
             width: 100%;
-            padding: 14px;
+            padding: 15px;
             border: none;
             border-radius: 12px;
             background: linear-gradient(90deg, #ff4b8a, #4facfe);
             color: white;
             font-weight: 600;
+            font-size: 15px;
             cursor: pointer;
-            margin-top: 15px;
-            transition: 0.3s;
+            margin-top: 10px;
+            transition: 0.4s;
         }
-        button:hover { transform: scale(1.02); filter: brightness(1.1); }
+        button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255, 75, 138, 0.3); filter: brightness(1.1); }
 
-        /* The Result Section (Hidden by Default) */
-        #resultSection {
-            display: none; /* This hides the raw text completely */
+        /* Stylish Result Section */
+        #resultContainer {
+            display: none; /* Hidden by default to hide raw code tags on static sites */
             margin-top: 25px;
             padding-top: 20px;
             border-top: 1px solid rgba(255,255,255,0.1);
-            animation: fadeIn 0.5s ease;
+            animation: slideUp 0.6s ease;
         }
 
         .bmi-card {
-            background: rgba(79, 172, 254, 0.1);
-            padding: 15px;
-            border-radius: 15px;
-            border: 1px solid rgba(79, 172, 254, 0.3);
+            background: linear-gradient(135deg, rgba(79, 172, 254, 0.1), rgba(255, 75, 138, 0.1));
+            padding: 18px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             margin-bottom: 12px;
         }
-        .bmi-card h2 { color: #4facfe; font-size: 24px; }
-        .bmi-card p { color: white; font-size: 12px; opacity: 0.8; }
+        .bmi-card h2 { color: #4facfe; font-size: 26px; }
+        .bmi-card span { color: #ff4b8a; font-size: 12px; font-weight: 600; text-transform: uppercase; }
 
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .stat-item {
-            background: rgba(255,255,255,0.05);
-            padding: 10px;
-            border-radius: 10px;
+        .stat-box {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 12px;
+            border-radius: 12px;
             text-align: left;
         }
-        .stat-item label { color: #ff4b8a; font-size: 9px; font-weight: 600; text-transform: uppercase; }
-        .stat-item p { color: #ddd; font-size: 12px; margin-top: 2px; }
+        .stat-box label { color: #777; font-size: 9px; font-weight: 600; text-transform: uppercase; display: block; }
+        .stat-box p { color: #eee; font-size: 13px; margin-top: 2px; }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <img src="./logo.png" class="logo" alt="Logo">
+    <!-- Ensure your logo path is correct (e.g., static/logo.png or logo.png) -->
+    <img src="static/logo.png" class="logo" alt="FitOps Logo" onerror="this.src='https://via.placeholder.com'">
+    
     <h1>FitOps AI</h1>
-    <p class="subtitle">Next-Gen Fitness</p>
+    <p class="subtitle">Next-Gen Fitness Planner</p>
 
-    <div class="input-group">
-        <input type="number" id="age" placeholder="Age">
-        <input type="number" id="height" placeholder="Height (cm)">
-        <input type="number" id="weight" placeholder="Weight (kg)">
-        <button onclick="calculateBMI()">Analyze Now</button>
+    <div class="form-group">
+        <input type="number" id="ageInput" placeholder="Age" required>
+        <input type="number" id="heightInput" placeholder="Height (cm)" required>
+        <input type="number" id="weightInput" placeholder="Weight (kg)" required>
+        <button onclick="generatePlan()">Analyze Now</button>
     </div>
 
-    <!-- This section is now controlled by Javascript, so no raw code shows -->
-    <div id="resultSection">
+    <!-- Results only appear after clicking 'Analyze Now' -->
+    <div id="resultContainer">
         <div class="bmi-card">
-            <h2 id="bmiValue">24.5</h2>
-            <p id="bmiCategory">Normal Weight</p>
+            <span>Health Score (BMI)</span>
+            <h2 id="bmiValue">22.4</h2>
+            <p id="bmiStatus" style="color:white; font-size: 13px; opacity: 0.8;"></p>
         </div>
         
         <div class="stats-grid">
-            <div class="stat-item">
-                <label>Daily Steps</label>
-                <p id="stepGoal">8,000</p>
+            <div class="stat-box">
+                <label>Daily Activity</label>
+                <p id="stepGoal">8,500 Steps</p>
             </div>
-            <div class="stat-item">
-                <label>Workout</label>
-                <p id="workoutType">Cardio</p>
+            <div class="stat-box">
+                <label>Training Plan</label>
+                <p id="workoutType">Strength & HIIT</p>
             </div>
-            <div class="stat-item" style="grid-column: span 2;">
-                <label>Diet Tip</label>
-                <p id="dietTip">Focus on high protein and leafy greens.</p>
+            <div class="stat-box" style="grid-column: span 2;">
+                <label>AI Nutrition Tip</label>
+                <p id="dietTip">High protein intake with complex carbs.</p>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    function calculateBMI() {
-        const h = document.getElementById('height').value / 100;
-        const w = document.getElementById('weight').value;
-        
-        if(h > 0 && w > 0) {
-            const bmi = (w / (h * h)).toFixed(1);
+    function generatePlan() {
+        const height = document.getElementById('heightInput').value / 100;
+        const weight = document.getElementById('weightInput').value;
+
+        if (height > 0 && weight > 0) {
+            const bmi = (weight / (height * height)).toFixed(1);
             document.getElementById('bmiValue').innerText = bmi;
             
-            let category = "";
-            if(bmi < 18.5) category = "Underweight";
-            else if(bmi < 25) category = "Normal Weight";
-            else category = "Overweight";
+            let status = "";
+            if (bmi < 18.5) status = "Underweight - Needs Caloric Surplus";
+            else if (bmi < 25) status = "Normal - Maintenance & Tone";
+            else if (bmi < 30) status = "Overweight - Caloric Deficit Focus";
+            else status = "Obese - Consult a Specialist";
             
-            document.getElementById('bmiCategory').innerText = category;
-            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('bmiStatus').innerText = status;
+            document.getElementById('resultContainer').style.display = 'block';
         } else {
-            alert("Please enter valid height and weight");
+            alert("Please fill in all fields correctly!");
         }
     }
 </script>
