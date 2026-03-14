@@ -3,7 +3,7 @@ name: Python lint
 on:
    push:
        branches: [main]
- jobs:
+jobs:
       validate:
           runs-on: ubuntu-latest
 
@@ -16,9 +16,9 @@ on:
                with:
                   python-version: "3.13"
 
-            - name: install dependencies
-              run: pip install -r requirements.txt
+             - name: install dependencies
+               run: pip install -r requirements.txt
 
-            - name: run linter
-              run: flake8
+             - name: run linter
+               run: flake8
 
