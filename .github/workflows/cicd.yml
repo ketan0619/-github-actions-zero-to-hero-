@@ -1,24 +1,24 @@
 name: CICD
 on:
-   workflow_dispatch: 
+   workflow_dispatch:
      inputs:
        environment:
          description: This is the environment value where this workflow runs
          default: 'dev'
          required: true
          type: choice
-         options: 
+         options:
             - dev
             - prod
             - staging
-            
+
 jobs:
    code:
      runs-on: ubuntu-latest
-     steps: 
+
+     steps:
        - name: checkout code
          run: echo "Code Check"
-
    build:
       needs: code
       runs-on: ubuntu-latest

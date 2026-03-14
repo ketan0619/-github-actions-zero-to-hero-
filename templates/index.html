@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>FitOps AI</title>
+
+<link rel="stylesheet" href="/static/style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="/static/logo.png" class="logo">
+
+<h1>FitOps AI</h1>
+
+<p class="subtitle">AI Powered Fitness Planner</p>
+
+<form method="POST">
+
+<input type="number" name="age" placeholder="Age" required>
+
+<input type="number" name="height" placeholder="Height (cm)" required>
+
+<input type="number" name="weight" placeholder="Weight (kg)" required>
+
+<button type="submit">Generate Plan</button>
+
+</form>
+
+{% if result %}
+
+<div class="result">
+
+<h2>BMI: {{result.bmi}}</h2>
+
+<p><b>Category:</b> {{result.category}}</p>
+<p><b>Daily Steps:</b> {{result.steps}}</p>
+<p><b>Workout:</b> {{result.workout}}</p>
+<p><b>Diet:</b> {{result.diet}}</p>
+
+</div>
+
+{% endif %}
+
+</div>
+
+</body>
+</html>
