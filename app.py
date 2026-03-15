@@ -3,7 +3,10 @@ from fitops_ai import calculate_bmi, fitness_plan
 
 app = Flask(__name__)
 
+
 @app.route("/", methods=["GET", "POST"])
+
+
 def index():
 
     result = None
@@ -26,4 +29,3 @@ def index():
         }
 
     return render_template("index.html", result=result)
-
